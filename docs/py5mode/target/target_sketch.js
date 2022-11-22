@@ -1386,11 +1386,11 @@ def pre_draw(p5_instance, draw_func, *args, **kwargs):
     global ROUND, SCREEN, SHIFT, SOFT_LIGHT, SQUARE, STROKE, SUBTRACT, TAB, TAU, TEXT, TEXTURE, THRESHOLD, TOP
     global TRIANGLE_FAN, TRIANGLE_STRIP, TRIANGLES, TWO_PI, UP_ARROW, VIDEO, WAIT, WEBGL
 
-    global frameCount, focused, displayWidth, displayHeight, windowWidth, windowHeight, width, height
-    global deviceOrientation, accelerationX, accelerationY, accelerationZ
-    global pAccelerationX, pAccelerationY, pAccelerationZ, rotationX, rotationY, rotationZ
-    global pRotationX, pRotationY, pRotationZ, turnAxis, keyIsPressed, key, keyCode, mouseX, mouseY, pmouseX, pmouseY
-    global winMouseX, winMouseY, pwinMouseX, pwinMouseY, mouseButton, mouseIsPressed, touches, pixels
+    global frame_count, focused, display_width, display_height, window_width, window_height, width, height
+    global device_orientation, acceleration_x, acceleration_y, acceleration_z
+    global p_acceleration_x, p_acceleration_y, p_acceleration_z, rotation_x, rotation_y, rotation_z
+    global p_rotation_x, p_rotation_y, p_rotation_z, turn_axis, key_is_pressed, key, key_code, mouse_x, mouse_y, pmouse_x, pmouse_y
+    global win_mouse_x, win_mouse_y, pwin_mouse_x, pwin_mouse_y, mouse_button, mouse_is_pressed, touches, pixels
 
     _CTX_MIDDLE = p5_instance._CTX_MIDDLE
     _DEFAULT_FILL = p5_instance._DEFAULT_FILL
