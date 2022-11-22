@@ -1593,11 +1593,11 @@ def start_p5(preload_func, setup_func, draw_func, event_functions):
 
     # Register event functions
     event_function_names = (
-        "device_moved", "device_turned", "device_shaken", "window_resized",
-        "key_pressed", "key_released", "key_typed",
-        "mouse_pressed", "mouse_released", "mouse_clicked", "double_clicked",
-        "mouse_moved", "mouse_dragged", "mouse_wheel",
-        "touch_started", "touch_moved", "touch_ended", "key_is_down",
+        "deviceMoved", "deviceTurned", "deviceShaken", "windowResized",
+        "keyPressed", "keyReleased", "keyTyped",
+        "mousePressed", "mouseReleased", "mouseClicked", "doubleClicked",
+        "mouseMoved", "mouseDragged", "mouseWheel",
+        "touchStarted", "touchMoved", "touchEnded", "keyIsDown",
     )
     for f_name in [f for f in event_function_names if event_functions.get(f, None)]:
         func = event_functions[f_name]
@@ -1638,23 +1638,23 @@ let userCode = "";
 
 const startCode = `
 event_functions = {
-    "deviceMoved": deviceMoved,
-    "deviceTurned": deviceTurned,
-    "deviceShaken": deviceShaken,
-    "keyPressed": keyPressed,
-    "keyReleased": keyReleased,
-    "keyTyped": keyTyped,
-    "mouseMoved": mouseMoved,
-    "mouseDragged": mouseDragged,
-    "mousePressed": mousePressed,
-    "mouseReleased": mouseReleased,
-    "mouseClicked": mouseClicked,
-    "doubleClicked": doubleClicked,
-    "mouseWheel": mouseWheel,
-    "touchStarted": touchStarted,
-    "touchMoved": touchMoved,
-    "touchEnded": touchEnded,
-    "windowResized": windowResized,
+    "deviceMoved": device_moved,
+    "deviceTurned": device_turned,
+    "deviceShaken": device_shaken,
+    "keyPressed": key_pressed,
+    "keyReleased": key_released,
+    "keyTyped": key_typed,
+    "mouseMoved": mouse_moved,
+    "mouseDragged": mouse_dragged,
+    "mousePressed": mouse_pressed,
+    "mouseReleased": mouse_released,
+    "mouseClicked": mouse_clicked,
+    "doubleClicked": double_clicked,
+    "mouseWheel": mouse_wheel,
+    "touchStarted": touch_started,
+    "touchMoved": touch_moved,
+    "touchEnded": touch_ended,
+    "windowResized": window_resized,
 }
 
 start_p5(preload, setup, draw, event_functions)
