@@ -928,112 +928,148 @@ def createCanvas(*args):
     return canvas
 
 def __deviceMoved(e):
-  try:
-    _bind_event_function(device_moved, e)
-  except NameError:
-    pass
+    try:
+        device_moved()
+    except TypeError:
+        device_moved(e)
+    except NameError:
+        pass
 
 def __deviceTurned(e):
-  try:
-    _bind_event_function(device_turned, e)
-  except NameError:
-    pass
+    try:
+        device_turned()
+    except TypeError:
+        device_turned(e)
+    except NameError:
+        pass
 
 def __deviceShaken(e):
-  try:
-    _bind_event_function(deviceShaken, e)
-  except NameError:
-    pass
+    try:
+        device_shaken()
+    except TypeError:
+        device_shaken(e)
+    except NameError:
+        pass
 
 def __touchEnded(e):
-  try:
-    _bind_event_function(deviceShaken, e)
-  except NameError:
-    pass
+    try:
+        device_shaken()
+    except TypeError:
+        device_shaken(e)
+    except NameError:
+        pass
 
 def __touchStarted(e):
-  try:
-    _bind_event_function(touchStarted, e)
-  except NameError:
-    pass
+    try:
+        touch_started()
+    except TypeError:
+        touch_started(e)
+    except NameError:
+        pass
 
 def __windowResized(e):
-  try:
-    _bind_event_function(windowResized, e)
-  except NameError:
-    pass
+    try:
+        window_resized()
+    except TypeError:
+        window_resized(e)
+    except NameError:
+        pass
 
 def __touchMoved(e):
-  try:
-    _bind_event_function(touchMoved, e)
-  except NameError:
-    pass
+    try:
+        touch_moved()
+    except TypeError:
+        touch_moved(e)
+    except NameError:
+        pass
 
 def __mouseMoved(e):
-  try:
-    _bind_event_function(mouseMoved, e)
-  except NameError:
-    pass
+    try:
+        mouse_moved()
+    except TypeError:
+        mouse_moved(e)
+    except NameError:
+        pass
 
 def __mouseDragged(e):
-  try:
-    _bind_event_function(mouseDragged, e)
-  except NameError:
-      pass
+    try:
+        mouse_dragged()
+    except TypeError:
+        mouse_dragged(e)
+    except NameError:
+            pass
 
-#def __mousePressed(e):
-#  try:
-#    _bind_event_function(mousePressed, e)
-#  except NameError:
-#    pass
+def __mousePressed(e):
+    try:
+        mouse_pressed()
+    except TypeError:
+        mouse_pressed(e)
+    except NameError:
+        pass
 
 def __mouseReleased(e):
-  try:
-    _bind_event_function(mouseReleased, e)
-  except NameError:
-    pass
+    try:
+        mouse_released()
+    except TypeError:
+        mouse_released(e)
+    except NameError:
+        pass
 
 def __mouseClicked(e):
-  try:
-    _bind_event_function(mouseClicked, e)
-  except NameError:
-    pass
+    try:
+        mouse_clicked()
+    except TypeError:
+        mouse_clicked(e)
+    except NameError:
+        pass
 
 def __doubleClicked(e):
-  try:
-    _bind_event_function(doubleClicked, e)
-  except NameError:
-    pass
+    try:
+        double_clicked()
+    except TypeError:
+        double_clicked(e)
+    except NameError:
+        pass
 
 def __mouseWheel(e):
-  try:
-    _bind_event_function(mouseWheel, e)
-  except NameError:
-    pass
+    try:
+        mouse_wheel()
+    except TypeError:
+        mouse_wheel(e)
+    except NameError:
+        pass
 
 def __keyPressed(e):
-  try:
-    _bind_event_function(keyPressed, e)
-  except NameError:
-    pass
+    try:
+        key_pressed()
+    except TypeError:
+        key_pressed(e)
+    except NameError:
+        pass
 
 def __keyReleased(e):
-  try:
-    _bind_event_function(keyReleased, e)
-  except NameError:
-    pass
+    try:
+        key_released()
+    except TypeError:
+        key_released(e)
+    except NameError:
+        pass
 
 def __keyTyped(e):
-  try:
-    _bind_event_function(keyTyped, e)
-  except NameError:
-    pass
+    try:
+        key_typed()
+    except TypeError:
+        key_typed(e)
+    except NameError:
+        pass
 
 def __keyIsDown(e):
-  try:
-    _bind_event_function(keyIsDown, e)
-  except NameError:
-    pass
+    try:
+        key_is_down()
+    except TypeError:
+        key_is_down(e)
+    except NameError:
+        pass
 
 def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
@@ -1614,47 +1650,29 @@ def setup():
 
 def draw():
     pass
-
-device_moved = None
-device_turned = None
-device_shaken = None
-key_pressed = None
-key_released = None
-key_typed = None
-mouse_moved = None
-mouse_dragged = None
-mouse_pressed = None
-mouse_released = None
-mouse_clicked = None
-double_clicked = None
-mouse_wheel = None
-touch_started = None
-touch_moved = None
-touch_ended = None
-window_resized = None
 `;
 
 let userCode = "";
 
 const startCode = `
 event_functions = {
-    "deviceMoved": device_moved,
-    "deviceTurned": device_turned,
-    "deviceShaken": device_shaken,
-    "keyPressed": key_pressed,
-    "keyReleased": key_released,
-    "keyTyped": key_typed,
-    "mouseMoved": mouse_moved,
-    "mouseDragged": mouse_dragged,
-    "mousePressed": mouse_pressed,
-    "mouseReleased": mouse_released,
-    "mouseClicked": mouse_clicked,
-    "doubleClicked": double_clicked,
-    "mouseWheel": mouse_wheel,
-    "touchStarted": touch_started,
-    "touchMoved": touch_moved,
-    "touchEnded": touch_ended,
-    "windowResized": window_resized,
+    "deviceMoved": __deviceMoved,
+    "deviceTurned": __deviceTurned,
+    "deviceShaken": __deviceShaken,
+    "keyPressed": __keyPressed,
+    "keyReleased": __keyReleased,
+    "keyTyped": __keyTyped,
+    "mouseMoved": __mouseMoved,
+    "mouseDragged": __mouseDragged,
+    "mousePressed": __mousePressed,
+    "mouseReleased": __mouseReleased,
+    "mouseClicked": __mouseClicked,
+    "doubleClicked": __doubleClicked,
+    "mouseWheel": __mouseWheel,
+    "touchStarted": __touchStarted,
+    "touchMoved": __touchMoved,
+    "touchEnded": __touchEnded,
+    "windowResized": __windowResized,
 }
 
 start_p5(preload, setup, draw, event_functions)
