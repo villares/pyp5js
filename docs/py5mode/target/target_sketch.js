@@ -678,11 +678,8 @@ def log(*args):
 def mag(*args):
     return _P5_INSTANCE.mag(*args)
 
-def map(*args):
-    if len(args) > 1 and callable(args[0]):
-        return PythonFunctions.map(*args)
-    else:
-        return _P5_INSTANCE.map(*args)
+def remap(*args):
+    return _P5_INSTANCE.map(*args)
 
 def max(*args):
     return _P5_INSTANCE.max(*args)
