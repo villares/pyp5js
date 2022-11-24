@@ -750,31 +750,31 @@ def degrees(*args):
 def radians(*args):
     return _P5_INSTANCE.radians(*args)
 
-def angleMode(*args):
+def angle_mode(*args):
     return _P5_INSTANCE.angleMode(*args)
 
-def textAlign(*args):
+def text_align(*args):
     return _P5_INSTANCE.textAlign(*args)
 
-def textLeading(*args):
-    return _P5_INSTANCE.textLeading(*args)
+def text_leading(*args):
+    return _P5_INSTANmCE.textLeading(*args)
 
-def textSize(*args):
+def text_size(*args):
     return _P5_INSTANCE.textSize(*args)
 
-def textStyle(*args):
+def text_style(*args):
     return _P5_INSTANCE.textStyle(*args)
 
-def textWidth(*args):
+def text_width(*args):
     return _P5_INSTANCE.textWidth(*args)
 
-def textAscent(*args):
+def text_ascent(*args):
     return _P5_INSTANCE.textAscent(*args)
 
-def textDescent(*args):
+def text_descent(*args):
     return _P5_INSTANCE.textDescent(*args)
 
-def loadFont(*args):
+def load_font(*args):
     return _P5_INSTANCE.loadFont(*args)
 
 def text(*args):
