@@ -363,6 +363,9 @@ def cursor(*args):
 def frame_rate(*args):
     return _P5_INSTANCE.frameRate(*args)
 
+def get_frame_rate(*args):
+    return _P5_INSTANCE.getFrameRate(*args)
+
 def no_cursor(*args):
     return _P5_INSTANCE.noCursor(*args)
 
