@@ -209,7 +209,10 @@ def no_erase(*args):
     return _P5_INSTANCE.noErase(*args)
 
 def color_mode(*args):
-    return _P5_INSTANCE.colorMode(*args)
+    if args == [HSB]:
+      return _P5_INSTANCE.colorMode(HSB, 255, 255, 255, 255)
+    else:
+      return _P5_INSTANCE.colorMode(*args)
 
 def fill(*args):
     return _P5_INSTANCE.fill(*args)
@@ -285,7 +288,7 @@ def load_model(*args):
 def model(*args):
     return _P5_INSTANCE.model(*args)
 
-def ellipseMode(*args):
+def ellipse_mode(*args):
     return _P5_INSTANCE.ellipseMode(*args)
 
 def no_smooth(*args):
