@@ -1,11 +1,5 @@
 const wrapperContent = `
-class PythonFunctions: pass
-
-# this is possibly broken...
-# setattr(PythonFunctions, 'map', map)
-# setattr(PythonFunctions, 'filter', filter)
-# setattr(PythonFunctions, 'set', set)
-
+#class PythonFunctions: pass
 
 _P5_INSTANCE = None
 
