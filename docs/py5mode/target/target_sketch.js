@@ -243,6 +243,14 @@ def points(arg):
     for p in arg:
         point(*p)
 
+def vertices(arg):
+    for v in arg:
+        vertex(*v)
+
+def lines(arg):
+    for li in arg:
+        line(*li)
+
 def quad(*args):
     return _P5_INSTANCE.quad(*args)
 
