@@ -1,5 +1,5 @@
 const wrapperContent = `
-#class PythonFunctions: pass
+# This version is adapted to be more similar to py5 (py5coding.org)
 
 _P5_INSTANCE = None
 
@@ -925,13 +925,16 @@ def createElement(*args):
 
 def createCanvas(*args):
     canvas = _P5_INSTANCE.createCanvas(*args)
-
     global width, height
     width = _P5_INSTANCE.width
     height = _P5_INSTANCE.height
-
     return canvas
 
+def size(*args):
+    canvas = createCanvas(*args)
+    background(200)
+    return canvas
+    
 def __deviceMoved(e):
     try:
         device_moved()
@@ -1082,7 +1085,6 @@ def pop(*args):
 
 
 # more py5 mode compatibility aliases
-size = createCanvas
 pop_matrix = pop
 pop_style = pop
 push_matrix = push
@@ -1644,7 +1646,7 @@ def start_p5(preload_func, setup_func, draw_func, event_functions):
         func = event_functions[f_name]
         event_func = global_p5_injection(window.instance)(func)
         setattr(window.instance, f_name, event_func)
-`;
+`;  // end of const wrapperContent
 
 const placeholder = `
 def preload():
