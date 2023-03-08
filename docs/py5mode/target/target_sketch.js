@@ -1,5 +1,5 @@
 const wrapperContent = `
-# This version is adapted to be more similar to py5 (py5coding.org)
+# This pyp5js version is adapted to be more similar to py5 (py5coding.org)
 
 _P5_INSTANCE = None
 
@@ -1083,6 +1083,8 @@ def pop(*args):
     p5_pop = _P5_INSTANCE.pop(*args)
     return p5_pop
 
+def createVector(*args):
+    return _P5_INSTANCE.createVector(*args)
 
 # more py5 mode compatibility aliases
 pop_matrix = pop
