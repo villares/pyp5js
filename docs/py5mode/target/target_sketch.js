@@ -1092,13 +1092,13 @@ pop_style = pop
 push_matrix = push
 push_style = push
 
-# PVector is a wrapper/helper class for p5.Vector objets
+# Py5Vector is a wrapper/helper class for p5.Vector objets
 # providing names similar to Processing Python or Java modes
 # but mostly keeping p5js functionality
 
 from numbers import Number
 
-class PVector:
+class Py5Vector:
 
     def __init__(self, x=0, y=0, z=0):
         self.__vector = createVector(x, y, z)
@@ -1135,13 +1135,15 @@ class PVector:
     def z(self, z):
         self.__vector.z = z
 
+    @property
     def mag(self):
         return self.__vector.mag()
 
-    def magSq(self):
+    @property
+    def mag_sq(self):
         return self.__vector.magSq()
 
-    def setMag(self, mag):
+    def set_mag(self, mag):
         self.__vector.setMag(mag)
         return self
 
@@ -1162,27 +1164,27 @@ class PVector:
 
     def __instance_add__(self, *args):
         if len(args) == 1:
-            return PVector.add(self, args[0], self)
+            return Py5Vector.add(self, args[0], self)
         else:
-            return PVector.add(self, PVector(*args), self)
+            return Py5Vector.add(self, Py5Vector(*args), self)
 
     def __instance_sub__(self, *args):
         if len(args) == 1:
-            return PVector.sub(self, args[0], self)
+            return Py5Vector.sub(self, args[0], self)
         else:
-            return PVector.sub(self, PVector(*args), self)
+            return Py5Vector.sub(self, Py5Vector(*args), self)
 
     def __instance_mult__(self, o):
-        return PVector.mult(self, o, self)
+        return Py5Vector.mult(self, o, self)
 
     def __instance_div__(self, f):
-        return PVector.div(self, f, self)
+        return Py5Vector.div(self, f, self)
 
     def __instance_cross__(self, o):
-        return PVector.cross(self, o, self)
+        return Py5Vector.cross(self, o, self)
 
     def __instance_dist__(self, o):
-        return PVector.dist(self, o)
+        return Py5Vector.dist(self, o)
 
     def __instance_dot__(self, *args):
         if len(args) == 1:
@@ -1193,16 +1195,16 @@ class PVector:
 
     def __instance_lerp__(self, *args):
         if len(args) == 2:
-            return PVector.lerp(self, args[0], args[1], self)
+            return Py5Vector.lerp(self, args[0], args[1], self)
         else:
             vx, vy, vz, f = args
-            return PVector.lerp(self, PVector(vx, vy, vz), f, self)
+            return Py5Vector.lerp(self, Py5Vector(vx, vy, vz), f, self)
 
     def get(self):
-        return PVector(self.x, self.y, self.z)
+        return Py5Vector(self.x, self.y, self.z)
 
     def copy(self):
-        return PVector(self.x, self.y, self.z)
+        return Py5Vector(self.x, self.y, self.z)
 
     def __getitem__(self, k):
         return getattr(self, ('x', 'y', 'z')[k])
@@ -1211,13 +1213,13 @@ class PVector:
         setattr(self, ('x', 'y', 'z')[k], v)
 
     def __copy__(self):
-        return PVector(self.x, self.y, self.z)
+        return Py5Vector(self.x, self.y, self.z)
 
     def __deepcopy__(self, memo):
-        return PVector(self.x, self.y, self.z)
+        return Py5Vector(self.x, self.y, self.z)
 
     def __repr__(self):  # PROVISÓRIO
-        return f'PVector({self.x}, {self.y}, {self.z})'
+        return f'Py5Vector({self.x}, {self.y}, {self.z})'
 
     def set(self, *args):
         """
@@ -1229,28 +1231,28 @@ class PVector:
     @classmethod
     def add(cls, a, b, dest=None):
         if dest is None:
-            return PVector(a.x + b[0], a.y + b[1], a.z + b[2])
+            return Py5Vector(a.x + b[0], a.y + b[1], a.z + b[2])
         dest.__vector.set(a.x + b[0], a.y + b[1], a.z + b[2])
         return dest
 
     @classmethod
     def sub(cls, a, b, dest=None):
         if dest is None:
-            return PVector(a.x - b[0], a.y - b[1], a.z - b[2])
+            return Py5Vector(a.x - b[0], a.y - b[1], a.z - b[2])
         dest.__vector.set(a.x - b[0], a.y - b[1], a.z - b[2])
         return dest
 
     @classmethod
     def mult(cls, a, b, dest=None):
         if dest is None:
-            return PVector(a.x * b, a.y * b, a.z * b)
+            return Py5Vector(a.x * b, a.y * b, a.z * b)
         dest.__vector.set(a.x * b, a.y * b, a.z * b)
         return dest
 
     @classmethod
     def div(cls, a, b, dest=None):
         if dest is None:
-            return PVector(a.x / b, a.y / b, a.z / b)
+            return Py5Vector(a.x / b, a.y / b, a.z / b)
         dest.__vector.set(a.x / b, a.y / b, a.z / b)
         return dest
 
@@ -1263,10 +1265,10 @@ class PVector:
         return a.__vector.dot(b.__vector)
 
     def __add__(a, b):
-        return PVector.add(a, b, None)
+        return Py5Vector.add(a, b, None)
 
     def __sub__(a, b):
-        return PVector.sub(a, b, None)
+        return Py5Vector.sub(a, b, None)
 
     def __isub__(a, b):
         a.sub(b)
@@ -1279,32 +1281,32 @@ class PVector:
     def __mul__(a, b):
         if not isinstance(b, Number):
             raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector.mult(a, float(b), None)
+                "The * operator can only be used to multiply a Py5Vector by a number")
+        return Py5Vector.mult(a, float(b), None)
 
     def __rmul__(a, b):
         if not isinstance(b, Number):
             raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector.mult(a, float(b), None)
+                "The * operator can only be used to multiply a Py5Vector by a number")
+        return Py5Vector.mult(a, float(b), None)
 
     def __imul__(a, b):
         if not isinstance(b, Number):
             raise TypeError(
-                "The *= operator can only be used to multiply a PVector by a number")
+                "The *= operator can only be used to multiply a Py5Vector by a number")
         a.__vector.mult(float(b))
         return a
 
     def __truediv__(a, b):
         if not isinstance(b, Number):
             raise TypeError(
-                "The * operator can only be used to multiply a PVector by a number")
-        return PVector(a.x / float(b), a.y / float(b), a.z / float(b))
+                "The * operator can only be used to multiply a Py5Vector by a number")
+        return Py5Vector(a.x / float(b), a.y / float(b), a.z / float(b))
 
     def __itruediv__(a, b):
         if not isinstance(b, Number):
             raise TypeError(
-                "The /= operator can only be used to multiply a PVector by a number")
+                "The /= operator can only be used to multiply a Py5Vector by a number")
         a.__vector.set(a.x / float(b), a.y / float(b), a.z / float(b))
         return a
 
@@ -1330,7 +1332,7 @@ class PVector:
         v = createVector(a.x, a.y, a.z)
         v.lerp(b.__vector, f)
         if dest is None:
-            return PVector(v.x, v.y, v.z)
+            return Py5Vector(v.x, v.y, v.z)
         dest.set(v.x, v.y, v.z)
         return dest
 
@@ -1340,14 +1342,14 @@ class PVector:
         y = a.z * b[0] - b[2] * a.x
         z = a.x * b[1] - b[0] * a.y
         if dest is None:
-            return PVector(x, y, z)
+            return Py5Vector(x, y, z)
         dest.set(x, y, z)
         return dest
 
     @classmethod
     def fromAngle(cls, angle, length=1):
         # https://github.com/processing/p5.js/blob/3f0b2f0fe575dc81c724474154f5b23a517b7233/src/math/p5.Vector.js
-        return PVector(length * cos(angle), length * sin(angle), 0)
+        return Py5Vector(length * cos(angle), length * sin(angle), 0)
 
     @classmethod
     def fromAngles(theta, phi, length=1):
@@ -1356,13 +1358,13 @@ class PVector:
         sinPhi = sin(phi)
         cosTheta = cos(theta)
         sinTheta = sin(theta)
-        return PVector(length * sinTheta * sinPhi,
+        return Py5Vector(length * sinTheta * sinPhi,
                        -length * cosTheta,
                        length * sinTheta * cosPhi)
 
     @classmethod
     def random2D(cls):
-        return PVector.fromAngle(random(TWO_PI))
+        return Py5Vector.fromAngle(random(TWO_PI))
 
     @classmethod
     def random3D(cls, dest=None):
@@ -1372,7 +1374,7 @@ class PVector:
         vx = mult * cos(angle)
         vy = mult * sin(angle)
         if dest is None:
-            return PVector(vx, vy, vz)
+            return Py5Vector(vx, vy, vz)
         dest.set(vx, vy, vz)
         return dest
 
@@ -1413,7 +1415,7 @@ class PVector:
         self.__vector.rem(*args)
         return self
 
-Py5Vector = PVector
+Py5Vector = Py5Vector
 
 def pre_draw(p5_instance, draw_func, *args, **kwargs):
     """
