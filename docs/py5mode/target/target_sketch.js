@@ -713,19 +713,19 @@ def sqrt(*args):
 def noise(*args):
     return _P5_INSTANCE.noise(*args)
 
-def noiseDetail(*args):
+def noise_detail(*args):
     return _P5_INSTANCE.noiseDetail(*args)
 
-def noiseSeed(*args):
+def noise_seed(*args):
     return _P5_INSTANCE.noiseSeed(*args)
 
-def randomSeed(*args):
+def random_seed(*args):
     return _P5_INSTANCE.randomSeed(*args)
 
 def random(*args):
     return _P5_INSTANCE.random(*args)
 
-def randomGaussian(*args):
+def random_gaussian(*args):
     return _P5_INSTANCE.randomGaussian(*args)
 
 def acos(*args):
