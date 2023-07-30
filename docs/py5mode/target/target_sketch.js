@@ -203,7 +203,7 @@ def no_erase(*args):
     return _P5_INSTANCE.noErase(*args)
 
 def color_mode(*args):
-    if args == [HSB]:
+    if args == [HSB]:  # py5 compatibility
       return _P5_INSTANCE.colorMode(HSB, 255, 255, 255, 255)
     else:
       return _P5_INSTANCE.colorMode(*args)
@@ -232,12 +232,13 @@ def circle(*args):
 def line(*args):
     return _P5_INSTANCE.line(*args)
 
+def point(*args):
+    return _P5_INSTANCE.point(*args)
+
+# py5 compatibility
 def lines(arg):
      for a, b in arg:
          line(*a, *b)
-
-def point(*args):
-    return _P5_INSTANCE.point(*args)
 
 def points(arg):
     for p in arg:
@@ -932,7 +933,7 @@ def createCanvas(*args):
 
 def size(*args):
     canvas = createCanvas(*args)
-    background(200)
+    background(200) # py5 compatibility
     return canvas
     
 def __deviceMoved(e):
@@ -961,9 +962,9 @@ def __deviceShaken(e):
 
 def __touchEnded(e):
     try:
-        device_shaken()
+        touch_ended()
     except TypeError:
-        device_shaken(e)
+        touch_ended(e)
     except NameError:
         pass
 
@@ -1043,7 +1044,8 @@ def __mouseWheel(e):
     try:
         mouse_wheel()
     except TypeError:
-        mouse_wheel(e)
+	e.get_count = lambda: e.delta // abs(e.delta)        
+	mouse_wheel(e)	
     except NameError:
         pass
 
@@ -1094,7 +1096,7 @@ push_style = push
 
 # Py5Vector is a wrapper/helper class for p5.Vector objets
 # providing names similar to Processing Python or Java modes
-# but mostly keeping p5js functionality
+# but mostly keeping p5js functionality TODO: review for py5
 
 from numbers import Number
 
@@ -1415,7 +1417,7 @@ class Py5Vector:
         self.__vector.rem(*args)
         return self
 
-Py5Vector = Py5Vector
+Vector = PVector = Py5Vector
 
 def pre_draw(p5_instance, draw_func, *args, **kwargs):
     """
