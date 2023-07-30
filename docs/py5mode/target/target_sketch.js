@@ -1044,8 +1044,8 @@ def __mouseWheel(e):
     try:
         mouse_wheel()
     except TypeError:
-	e.get_count = lambda: e.delta // abs(e.delta)        
-	mouse_wheel(e)	
+        e.get_count = lambda: e.delta // abs(e.delta)        
+        mouse_wheel(e)
     except NameError:
         pass
 
