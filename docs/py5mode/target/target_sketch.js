@@ -1,5 +1,6 @@
 const wrapperContent = `
 # This pyp5js version is adapted to be more similar to py5 (py5coding.org)
+# by Alexandre B A Villares - https://abav.lugaralgum.com
 
 _P5_INSTANCE = None
 
