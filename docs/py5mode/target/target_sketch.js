@@ -1142,6 +1142,10 @@ class Py5Vector:
     def mag(self):
         return self.__vector.mag()
 
+    @mag.setter   # py5 compat
+    def mag(self, mag):
+        self.set_mag(mag)
+
     @property
     def mag_sq(self):
         return self.__vector.magSq()
@@ -1150,6 +1154,13 @@ class Py5Vector:
         self.__vector.setMag(mag)
         return self
 
+    # py5 compat
+    @property
+    def norm(self):
+        n = self.copy()
+        n.normalize()
+        return n
+    
     def normalize(self):
         self.__vector.normalize()
         return self
@@ -1352,7 +1363,7 @@ class Py5Vector:
     @classmethod
     def fromAngle(cls, angle, length=1):
         # https://github.com/processing/p5.js/blob/3f0b2f0fe575dc81c724474154f5b23a517b7233/src/math/p5.Vector.js
-        return Py5Vector(length * cos(angle), length * sin(angle), 0)
+        return cls(length * cos(angle), length * sin(angle), 0)
 
     @classmethod
     def fromAngles(theta, phi, length=1):
@@ -1361,13 +1372,20 @@ class Py5Vector:
         sinPhi = sin(phi)
         cosTheta = cos(theta)
         sinTheta = sin(theta)
-        return Py5Vector(length * sinTheta * sinPhi,
+        return cls(length * sinTheta * sinPhi,
                        -length * cosTheta,
                        length * sinTheta * cosPhi)
 
     @classmethod
+    def random(cls, dim=2): # py5 compat
+        if dim == 3:
+            return cls.random3D()
+        else:
+            return cls.fromAngle(random(TWO_PI))
+
+    @classmethod
     def random2D(cls):
-        return Py5Vector.fromAngle(random(TWO_PI))
+        return cls.fromAngle(random(TWO_PI))
 
     @classmethod
     def random3D(cls, dest=None):
@@ -1377,7 +1395,7 @@ class Py5Vector:
         vx = mult * cos(angle)
         vy = mult * sin(angle)
         if dest is None:
-            return Py5Vector(vx, vy, vz)
+            return cls(vx, vy, vz)
         dest.set(vx, vy, vz)
         return dest
 
