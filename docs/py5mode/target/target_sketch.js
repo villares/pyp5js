@@ -343,8 +343,25 @@ def curve_tangent(*args):
 def begin_contour(*args):
     return _P5_INSTANCE.beginContour(*args)
 
-def begin_shape(*args):
-    return _P5_INSTANCE.beginShape(*args)
+class begin_shape():
+    def __init__(self):
+        _P5_INSTANCE.beginShape()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endShape()
+
+class begin_closed_shape():
+    def __init__(self):
+        _P5_INSTANCE.beginShape()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endShape(CLOSE)
 
 def bezier_vertex(*args):
     return _P5_INSTANCE.bezierVertex(*args)
@@ -403,8 +420,15 @@ def no_loop(*args):
 def loop(*args):
     return _P5_INSTANCE.loop(*args)
 
-def push(*args):
-    return _P5_INSTANCE.push(*args)
+class push():
+    def __init__(self):
+        _P5_INSTANCE.push()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.pop()
 
 def redraw(*args):
     return _P5_INSTANCE.redraw(*args)
