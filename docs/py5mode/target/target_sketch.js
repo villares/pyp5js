@@ -1745,7 +1745,7 @@ function runCode() {
     if (window.instance) {
       window.instance.remove();
     }
-
+    document.getElementById("ScreenConsole").innerHTML = ""; 
     console.log("Python execution output:");
     window.pyodide.runPython(code);
 }
