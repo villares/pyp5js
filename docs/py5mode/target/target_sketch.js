@@ -715,12 +715,6 @@ def mag(*args):
 def remap(*args):
     return _P5_INSTANCE.map(*args)
 
-def max(*args):
-    return _P5_INSTANCE.max(*args)
-
-def min(*args):
-    return _P5_INSTANCE.min(*args)
-
 def norm(*args):
     return _P5_INSTANCE.norm(*args)
 
