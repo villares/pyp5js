@@ -204,10 +204,10 @@ def no_erase(*args):
     return _P5_INSTANCE.noErase(*args)
 
 def color_mode(*args):
-    if args == [HSB]:  # py5 compatibility
-      return _P5_INSTANCE.colorMode(HSB, 255, 255, 255, 255)
+    if args == ('hsb',):  # py5 compatibility
+        return _P5_INSTANCE.colorMode('hsb', 255, 255, 255)
     else:
-      return _P5_INSTANCE.colorMode(*args)
+        return _P5_INSTANCE.colorMode(*args)
 
 def fill(*args):
     return _P5_INSTANCE.fill(*args)
@@ -340,12 +340,19 @@ def curve_point(*args):
 def curve_tangent(*args):
     return _P5_INSTANCE.curveTangent(*args)
 
-def begin_contour(*args):
-    return _P5_INSTANCE.beginContour(*args)
+class begin_contour():
+    def __init__(self):
+        _P5_INSTANCE.beginContour()
+        
+    def __enter__(self):
+        pass
+    
+    def __exit__(self,  exc_type, exc_value, exc_tb):
+        _P5_INSTANCE.endContour()
 
 class begin_shape():
-    def __init__(self):
-        _P5_INSTANCE.beginShape()
+    def __init__(self, *args):
+        _P5_INSTANCE.beginShape(*args)
 
     def __enter__(self):
         pass
@@ -420,7 +427,7 @@ def no_loop(*args):
 def loop(*args):
     return _P5_INSTANCE.loop(*args)
 
-class push():
+class push():  # py5  compatibility
     def __init__(self):
         _P5_INSTANCE.push()
 
@@ -745,6 +752,13 @@ def random_seed(*args):
 def random(*args):
     return _P5_INSTANCE.random(*args)
 
+def random_int(*args):  # py5 compatibility
+    *a, b = args
+    return int(_P5_INSTANCE.random(*a, b + 1))
+
+def random_choice(seq):  # py5 compatibility
+    return seq[int(_P5_INSTANCE.random(len(seq)))]
+
 def random_gaussian(*args):
     return _P5_INSTANCE.randomGaussian(*args)
 
@@ -802,11 +816,15 @@ def text_descent(*args):
 def load_font(*args):
     return _P5_INSTANCE.loadFont(*args)
 
+def create_font(*args): # py5 compatibility
+    print('Sorry, create_font() is unavailable in pyp5js!')
+
 def text(*args):
     return _P5_INSTANCE.text(*args)
 
-def text_font(*args):
-    return _P5_INSTANCE.textFont(*args)
+def text_font(*args): # py5 compatibility
+    if args[0]:
+        return _P5_INSTANCE.textFont(*args)
 
 def orbit_control(*args):
     return _P5_INSTANCE.orbitControl(*args)
@@ -953,6 +971,7 @@ def createCanvas(*args):
 def size(*args):
     canvas = createCanvas(*args)
     background(200) # py5 compatibility
+    fill(255) # py5 compatibility (for text default color)
     return canvas
     
 def __deviceMoved(e):
@@ -1728,10 +1747,36 @@ event_functions = {
 start_p5(preload, setup, draw, event_functions)
 `;
 
+function preprocessCode(code) {
+  // Check if the code contains a setup definition
+  if (code.indexOf('def setup') === -1) {
+    // If not, wrap the entire code inside a new setup function
+    const lines = code.trim().split('\n');
+    const indentedLines = lines.map(function(line) {
+      return '  ' + line;
+    });
+    code = 'def setup():\n' + indentedLines.join('\n');
+  }
+  // Check if the code contains a size() function call
+  if (code.indexOf('size(') === -1) {
+    // Find the indentation level of the first line inside the setup function
+    const setupIndex = code.indexOf('def setup');
+    const setupEndIndex = code.indexOf('\n', setupIndex);
+    const setupLine = code.substring(setupEndIndex + 1);
+    const indentation = setupLine.match(/^ */)[0];
+    // add size(100, 100) as the first line of the setup definition
+    code = code.replace('def setup():', 'def setup():\n' + indentation + 'size(100, 100)');
+  }
+  if (code.indexOf('get_pixels(') > 0) {
+      code = code.replace('get_pixels(', 'get(')
+  }
+  return code;
+}
+
 function runCode() {
     let code = [
         placeholder,
-        userCode,
+        preprocessCode(userCode),
         wrapperContent,
         startCode,
     ].join('\n');
