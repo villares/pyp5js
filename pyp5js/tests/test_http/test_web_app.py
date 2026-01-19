@@ -16,13 +16,14 @@ You should have received a copy of the GNU Lesser General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 import os
+import platform
 import shutil
 from pathlib import Path
 
 from pyp5js import commands
 from pyp5js.sketch import Sketch
 from pyp5js.config import SKETCHBOOK_DIR, PYODIDE_INTERPRETER, TRANSCRYPT_INTERPRETER
-from pyp5js.http.web_app import app as web_app
+from pyp5js.http_local.web_app import app as web_app
 from flask_testing import TestCase
 
 
@@ -56,6 +57,21 @@ class Pyp5jsWebTestCase(TestCase):
             mode += 'b'
         with (SKETCHBOOK_DIR.joinpath(file_name).resolve()).open(mode) as fd:
             fd.write(content)
+
+    def _add_template(self, app, template, context):
+        """
+        flask testing does not work with Werkzeug>=2.1
+        We are overwriting how this function add the templates in order to
+        make it to work again.
+
+        The app parameter is actually the context, while the template
+        is now the app and the context is the template.
+        Yep, this is fucked up.
+        """
+        app, template, context = template, context, app
+        if len(self.templates) > 0:
+            self.templates = []
+        self.templates.append((template, context))
 
 
 class IndexViewTests(Pyp5jsWebTestCase):
@@ -153,7 +169,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
         self.create_sketch_with_static_files('sketch_with_static_js', use_cdn=False)
         response = self.client.get(self.route + 'sketch_with_static_js/static/p5.js')
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
+        content_types = ['application/javascript; charset=utf-8', 'text/javascript; charset=utf-8']
+        self.assertIn(response.headers['Content-Type'], content_types)
 
     def test_get_static_javascript_file_upper_case(self):
         js_code = 'alert("hi!");'
@@ -163,7 +180,8 @@ class SketchViewTests(Pyp5jsWebTestCase):
         response = self.client.get(self.route + 'sketch_with_static_js/static/custom.JS')
 
         self.assert_200(response)
-        self.assertEqual(response.headers['Content-Type'], 'application/javascript; charset=utf-8')
+        content_types = ['application/javascript; charset=utf-8', 'text/javascript; charset=utf-8']
+        self.assertIn(response.headers['Content-Type'], content_types)
         self.assertEqual(js_code.encode(), response.get_data())
 
     def test_get_static_file(self):
@@ -250,7 +268,10 @@ def draw():
         response = self.client.post(url, data={'py_code': test_code})
 
         self.assert_template_used('view_sketch.html')
-        self.assert_context('error', 'SyntaxError: invalid syntax (sketch_exists.py, line 6)')
+        err_msg = 'SyntaxError: invalid syntax (sketch_exists.py, line 6)'
+        if platform.python_version().startswith("3.10"):
+            err_msg = "SyntaxError: '(' was never closed (sketch_exists.py, line 4)"
+        self.assert_context('error', err_msg)
         assert old_content == sketch.sketch_py.read_text()
 
     def test_check_for_setup_function_before_updating(self):
