@@ -254,7 +254,11 @@ def lines(arg):
         line(*li)
         
 def save_frame(filename):
-    pass
+    n = filename.find('#')
+    filename = filename.replace('#', '')
+    if n >= 0:
+        filename = filename[:n] + str(_P5_INSTANCE.frameCount) + filename[n:]
+    _P5_INSTANCE.save(filename)
     
 def quad(*args):
     return _P5_INSTANCE.quad(*args)
