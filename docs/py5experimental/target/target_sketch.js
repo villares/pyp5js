@@ -255,9 +255,11 @@ def lines(arg):
         
 def save_frame(filename):
     n = filename.find('#')
-    filename = filename.replace('#', '')
     if n >= 0:
-        filename = filename[:n] + str(_P5_INSTANCE.frameCount) + filename[n:]
+        c = filename.count('#')
+        frame = str(_P5_INSTANCE.frameCount).zfill(c)[-c:]
+        filename = filename.replace('#', '')
+        filename = filename[:n] + frame + filename[n:]
     _P5_INSTANCE.save(filename)
     
 def quad(*args):
