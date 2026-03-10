@@ -25,9 +25,6 @@ function checkForSketch() {
 
 def draw():
     background(200)
-    diameter = sin(frame_count / 60) * 50 + width / 2
-    fill("blue")
-    ellipse(width / 2, height / 2, diameter, diameter)
     `;
 
   const currentUrl = new URLSearchParams(window.location.search);
