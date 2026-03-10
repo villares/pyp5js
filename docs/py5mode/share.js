@@ -22,9 +22,6 @@ function decodeSketchUrl(encodedSketch) {
 function checkForSketch() {
   let initialSketch = `def setup():
     size(400, 400)
-
-def draw():
-    background(200)
     `;
 
   const currentUrl = new URLSearchParams(window.location.search);
